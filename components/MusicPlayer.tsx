@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { Audio } from "expo-av";
 import { Feather } from "@expo/vector-icons";
 import Bar from "./Bar";
@@ -13,12 +13,18 @@ const MusicPlayer = () => {
   const [duration, setDuration] = useState<number | undefined>(0);
   const [playing, setPlaying] = useState<boolean>(false);
   const [position, setPosition] = useState<any | null>(0);
-  const [musicFile, setMusicFile] = useState<string | null>(null);
+  const [musicFile, setMusicFile] = useState<string>("../assets/alex-productions-cinematic-epic-emotional-eglair.mp3");
+  const [songName, setSongName] = useState<string>("")
 
   const chooseFile = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({})
-      console.log(result)
+      if(result.assets !== null) {
+        const { uri } = result.assets[0];
+        setSongName(result.assets[0].name)
+        setMusicFile(uri)
+      }
+      
     } catch(error) {
       console.log(error)
     }
@@ -27,7 +33,7 @@ const MusicPlayer = () => {
   async function playSound() {
     if (soundt === null) {
       const { sound } = await Audio.Sound.createAsync(
-        require("../assets/alex-productions-cinematic-epic-emotional-eglair.mp3")
+        { uri: musicFile }
       );
       setSoundT(sound);
       const status = await sound.getStatusAsync();
@@ -93,6 +99,7 @@ const MusicPlayer = () => {
   return (
     <View style={styles.container}>
         <MenuButton icon={"folder"} styles={[ styles.icon]} action={chooseFile} />
+        <Text>{songName}</Text>
       <View style={styles.menu}>
 
         <MenuButton icon={"fast-forward"} styles={[styles.flip, styles.icon]} action={playSound} />
