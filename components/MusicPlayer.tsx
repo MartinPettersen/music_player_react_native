@@ -42,7 +42,6 @@ const MusicPlayer = () => {
   }
 
   const updateTimer = async() => {
-    console.log("test")
     const status = await soundt!.getStatusAsync();
     if (status.isLoaded) {
       setPosition(status.positionMillis);
@@ -54,7 +53,7 @@ const MusicPlayer = () => {
     let timer: any;
     
     if (playing) {
-      timer = setInterval(updateTimer, 1000)
+      timer = setInterval(updateTimer, 66)
     } else {
       if (timer) {
         clearInterval(timer)
@@ -112,6 +111,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    width: "100%"
   },
   menu: {
     alignItems: "center",
