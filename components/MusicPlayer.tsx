@@ -81,7 +81,7 @@ const MusicPlayer = () => {
       <View style={styles.menu}>
         <TouchableOpacity onPress={playSound}>
           <View style={[styles.flip, styles.icon]}>
-            <Feather name={"fast-forward"} size={30} color={"black"} />
+            <Feather name={"fast-forward"} size={30} color={"#52525b"} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={playSound}>
@@ -89,13 +89,13 @@ const MusicPlayer = () => {
             <Feather
               name={playing ? "pause" : "play"}
               size={30}
-              color={"black"}
+              color={"#52525b"}
             />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={playSound}>
           <View style={styles.icon}>
-            <Feather name={"fast-forward"} size={30} color={"black"} />
+            <Feather name={"fast-forward"} size={30} color={"#52525b"} />
           </View>
         </TouchableOpacity>
       </View>

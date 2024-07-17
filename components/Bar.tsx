@@ -1,5 +1,7 @@
+import { getTimeFormatted } from "@/hooks/useGetFormattedTime";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+
 
 type Props = {
   duration: number;
@@ -8,27 +10,6 @@ type Props = {
 
 const Bar = ({ duration, position }: Props) => {
   const rubrikk = duration / 100;
-
-  const getSeconds = (milliseconds: number) => {
-    return Math.round(milliseconds / 1000);
-  };
-
-  const formattStartingZero = (timeUnit: number) => {
-    if (timeUnit < 10) {
-      return `0${timeUnit}`;
-    }
-    return timeUnit;
-  };
-
-  const getMinuttes = (seconds: number) => {
-    const rest = seconds % 60;
-
-    return `${formattStartingZero(Math.floor(seconds / 60))}:${formattStartingZero(rest)}`;
-  };
-
-  const getTimeFormatted = (milliseconds: number) => {
-    return getMinuttes(getSeconds(milliseconds));
-  };
 
   return (
     <View style={styles.container}>
@@ -45,7 +26,7 @@ const Bar = ({ duration, position }: Props) => {
       </View>
       <View style={styles.timerContainer}>
         <Text>{getTimeFormatted(position)}</Text>
-        <Text>{getTimeFormatted(duration)}</Text>
+        <Text>{getTimeFormatted(duration - position)}</Text>
       </View>
     </View>
   );
