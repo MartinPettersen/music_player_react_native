@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Audio } from "expo-av";
 import { Feather } from "@expo/vector-icons";
 import Bar from "./Bar";
+import MenuButton from "./MenuButton";
 
 const MusicPlayer = () => {
   const [soundt, setSoundT] = useState<Audio.Sound | null>(null);
@@ -79,25 +80,11 @@ const MusicPlayer = () => {
   return (
     <View style={styles.container}>
       <View style={styles.menu}>
-        <TouchableOpacity onPress={playSound}>
-          <View style={[styles.flip, styles.icon]}>
-            <Feather name={"fast-forward"} size={30} color={"#52525b"} />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={playSound}>
-          <View style={styles.icon}>
-            <Feather
-              name={playing ? "pause" : "play"}
-              size={30}
-              color={"#52525b"}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={playSound}>
-          <View style={styles.icon}>
-            <Feather name={"fast-forward"} size={30} color={"#52525b"} />
-          </View>
-        </TouchableOpacity>
+
+        <MenuButton icon={"fast-forward"} styles={[styles.flip, styles.icon]} action={playSound} />
+        <MenuButton icon={playing ? "pause" : "play"} styles={[styles.icon]} action={playSound} />
+        <MenuButton icon={"fast-forward"} styles={[styles.icon]} action={playSound} />
+
       </View>
       {duration !== undefined ? (
         <Bar duration={duration} position={position} />
