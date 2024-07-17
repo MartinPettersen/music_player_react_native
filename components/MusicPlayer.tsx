@@ -4,12 +4,25 @@ import { Audio } from "expo-av";
 import { Feather } from "@expo/vector-icons";
 import Bar from "./Bar";
 import MenuButton from "./MenuButton";
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
+
 
 const MusicPlayer = () => {
   const [soundt, setSoundT] = useState<Audio.Sound | null>(null);
   const [duration, setDuration] = useState<number | undefined>(0);
   const [playing, setPlaying] = useState<boolean>(false);
   const [position, setPosition] = useState<any | null>(0);
+  const [musicFile, setMusicFile] = useState<string | null>(null);
+
+  const chooseFile = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({})
+      console.log(result)
+    } catch(error) {
+      console.log(error)
+    }
+  }
 
   async function playSound() {
     if (soundt === null) {
@@ -79,6 +92,7 @@ const MusicPlayer = () => {
 
   return (
     <View style={styles.container}>
+        <MenuButton icon={"folder"} styles={[ styles.icon]} action={chooseFile} />
       <View style={styles.menu}>
 
         <MenuButton icon={"fast-forward"} styles={[styles.flip, styles.icon]} action={playSound} />
