@@ -25,6 +25,7 @@ const MusicPlayer = () => {
         const { uri } = result.assets[0];
         setSongName(result.assets[0].name);
         setMusicFile(uri);
+
         const { sound } = await Audio.Sound.createAsync({ uri: uri });
         setSoundT(sound);
         const status = await sound.getStatusAsync();
@@ -33,6 +34,9 @@ const MusicPlayer = () => {
         }
         setNewSong(false);
         await sound.playAsync();
+        if (status.isLoaded) {
+          setPosition(status.positionMillis);
+        }
       }
     } catch (error) {
       console.log(error);
