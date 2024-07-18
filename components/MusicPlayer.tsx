@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Audio } from "expo-av";
-import { Feather } from "@expo/vector-icons";
 import Bar from "./Bar";
 import MenuButton from "./MenuButton";
 import * as DocumentPicker from "expo-document-picker";
@@ -15,6 +14,7 @@ const MusicPlayer = () => {
   const [musicFile, setMusicFile] = useState<string>(
     "../assets/alex-productions-cinematic-epic-emotional-eglair.mp3"
   );
+  const [playList, setPlayList] = useState<string[]>([]);
   const [songName, setSongName] = useState<string>("");
   const [newSong, setNewSong] = useState<boolean>(false);
 
@@ -31,12 +31,18 @@ const MusicPlayer = () => {
         const status = await sound.getStatusAsync();
         if (status.isLoaded) {
           setDuration(status.playableDurationMillis);
-        }
-        setNewSong(false);
-        await sound.playAsync();
-        if (status.isLoaded) {
           setPosition(status.positionMillis);
+          if (playing) {
+            setPlaying(false);
+            setPlaying(true);
+
+            await sound.playAsync();
+  
+          }
         }
+        
+
+        
       }
     } catch (error) {
       console.log(error);
@@ -44,6 +50,14 @@ const MusicPlayer = () => {
 
   };
 
+  const createPlaylist = async (uri: string) => {
+    const directoryUri = uri.substring(0, uri.lastIndexOf('/'));
+
+    const files = await FileSystem.readDirectoryAsync(directoryUri);
+    const audioFiles = files.filter(file => file.endsWith('.mp3') || file.endsWith('.m4a'));
+
+    setPlayList(audioFiles.map(file => `${directoryUri}/${file}`));
+  }
 
   async function playSound() {
     if (soundt === null || newSong == true) {
@@ -132,6 +146,7 @@ const MusicPlayer = () => {
       {duration !== undefined ? (
         <Bar duration={duration} position={position} />
       ) : null}
+      <Text>{playList.length}</Text>
     </View>
   );
 };
